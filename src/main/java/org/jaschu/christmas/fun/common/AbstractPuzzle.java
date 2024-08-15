@@ -1,8 +1,10 @@
 package org.jaschu.christmas.fun.common;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * An abstract class that represents a solution to an Advent of Code puzzle.
@@ -30,6 +32,17 @@ public abstract class AbstractPuzzle {
 
     public Path getPath() throws URISyntaxException {
         return Paths.get(this.getClass().getClassLoader().getResource(_puzzleInput).toURI());
+    }
+
+    public List<String> readFileLines() {
+        try {
+            return InputReader.readFileInputLines(_puzzleInput);
+        } catch (IOException e) {
+            System.out.println("Failed to read file " + _puzzleInput);
+            System.exit(0);
+        }
+
+        return null;
     }
 
     /**
