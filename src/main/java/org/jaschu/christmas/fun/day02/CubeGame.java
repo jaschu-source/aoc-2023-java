@@ -33,15 +33,13 @@ public class CubeGame {
             identifyingNumber = gameMatcher.group().replace("Game ", "");
         }
 
-        // remove game number from string
-        gameString = gameString.replace(gameMatcher.group() + ":", "");
+        // remove game number from string & split into games
+        String[] gameStrings = gameString.split(":")[1].split(";");
 
-        String[] gameStrings = gameString.split(";");
-
-        for(String string: gameStrings) {
+        for(String game: gameStrings) {
             // Regex to match color-value pairs
             Pattern colorPattern = Pattern.compile("(\\d+)\\s*(red|green|blue)");
-            Matcher colorMatcher = colorPattern.matcher(string);
+            Matcher colorMatcher = colorPattern.matcher(game);
 
             // Iterate through all color-value pairs
             while (colorMatcher.find()) {
