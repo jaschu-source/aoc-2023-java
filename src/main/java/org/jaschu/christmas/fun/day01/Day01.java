@@ -1,13 +1,18 @@
 package org.jaschu.christmas.fun.day01;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jaschu.christmas.fun.common.AbstractPuzzle;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.lang3.StringUtils;
-
 public class Day01 extends AbstractPuzzle {
+    private static final Map<String, Integer> possibleNumbersMap = Map.of(
+            "one", 1, "two", 2, "three", 3, "four", 4, "five", 5,
+            "six", 6, "seven", 7, "eight", 8, "nine", 9
+    );
+
     public Day01(String file) {
         super(file);
     }
@@ -26,6 +31,45 @@ public class Day01 extends AbstractPuzzle {
 
     @Override
     public String solvePart2() {
-        return null;
+        List<String> lines = this.readFileLines();
+        AtomicInteger calibrationNumberSum = new AtomicInteger();
+
+        lines.forEach(line -> calibrationNumberSum.addAndGet(addCalibrationValuesWithPossibleNumbers(line)));
+
+        return String.valueOf(calibrationNumberSum.get());
+    }
+
+    private int addCalibrationValuesWithPossibleNumbers(String line) {
+        CalibrationNumber calibrationNumberPositionFirst = new CalibrationNumber("0", 9999);
+        CalibrationNumber calibrationNumberPositionSecond = new CalibrationNumber("0", 0);
+
+        possibleNumbersMap.forEach((key, number) -> {
+
+            // number means [1-9]; string means the string representation of the numbers
+            int numberIndex = line.indexOf(number.toString());
+            int stringIndex = line.indexOf(key);
+
+            boolean numberIndexCheck = numberIndex >=0 && numberIndex <= calibrationNumberPositionFirst.position;
+            boolean stringIndexCheck = stringIndex >= 0 && stringIndex <= calibrationNumberPositionFirst.position;
+
+            if( numberIndexCheck || stringIndexCheck) {
+                if (numberIndex >= 0 && stringIndex >= 0) {
+                    calibrationNumberPositionFirst.position = Math.min(numberIndex, stringIndex);
+                } else {
+                    calibrationNumberPositionFirst.position = numberIndex >= 0 ? numberIndex : stringIndex;
+                }
+                calibrationNumberPositionFirst.number = number.toString();
+            }
+
+            numberIndex = line.lastIndexOf(number.toString());
+            stringIndex = line.lastIndexOf(key);
+
+            if(numberIndex >= calibrationNumberPositionSecond.position || stringIndex >= calibrationNumberPositionSecond.position) {
+                calibrationNumberPositionSecond.position = Math.max(numberIndex, stringIndex);
+                calibrationNumberPositionSecond.number = number.toString();
+            }
+        });
+
+        return Integer.parseInt(calibrationNumberPositionFirst.number + calibrationNumberPositionSecond.number);
     }
 }
