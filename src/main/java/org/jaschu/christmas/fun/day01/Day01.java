@@ -40,8 +40,8 @@ public class Day01 extends AbstractPuzzle {
     }
 
     private int addCalibrationValuesWithPossibleNumbers(String line) {
-        CalibrationNumber calibrationNumberPositionFirst = new CalibrationNumber("0", 9999);
-        CalibrationNumber calibrationNumberPositionSecond = new CalibrationNumber("0", 0);
+        CalibrationNumber calibrationNumberFirst = new CalibrationNumber("0", 9999);
+        CalibrationNumber calibrationNumberLast = new CalibrationNumber("0", 0);
 
         possibleNumbersMap.forEach((key, number) -> {
 
@@ -49,27 +49,27 @@ public class Day01 extends AbstractPuzzle {
             int numberIndex = line.indexOf(number.toString());
             int stringIndex = line.indexOf(key);
 
-            boolean numberIndexCheck = numberIndex >=0 && numberIndex <= calibrationNumberPositionFirst.position;
-            boolean stringIndexCheck = stringIndex >= 0 && stringIndex <= calibrationNumberPositionFirst.position;
+            boolean numberIndexCheck = numberIndex >=0 && numberIndex <= calibrationNumberFirst.position;
+            boolean stringIndexCheck = stringIndex >= 0 && stringIndex <= calibrationNumberFirst.position;
 
             if( numberIndexCheck || stringIndexCheck) {
                 if (numberIndex >= 0 && stringIndex >= 0) {
-                    calibrationNumberPositionFirst.position = Math.min(numberIndex, stringIndex);
+                    calibrationNumberFirst.position = Math.min(numberIndex, stringIndex);
                 } else {
-                    calibrationNumberPositionFirst.position = numberIndex >= 0 ? numberIndex : stringIndex;
+                    calibrationNumberFirst.position = numberIndex >= 0 ? numberIndex : stringIndex;
                 }
-                calibrationNumberPositionFirst.number = number.toString();
+                calibrationNumberFirst.number = number.toString();
             }
 
             numberIndex = line.lastIndexOf(number.toString());
             stringIndex = line.lastIndexOf(key);
 
-            if(numberIndex >= calibrationNumberPositionSecond.position || stringIndex >= calibrationNumberPositionSecond.position) {
-                calibrationNumberPositionSecond.position = Math.max(numberIndex, stringIndex);
-                calibrationNumberPositionSecond.number = number.toString();
+            if(numberIndex >= calibrationNumberLast.position || stringIndex >= calibrationNumberLast.position) {
+                calibrationNumberLast.position = Math.max(numberIndex, stringIndex);
+                calibrationNumberLast.number = number.toString();
             }
         });
 
-        return Integer.parseInt(calibrationNumberPositionFirst.number + calibrationNumberPositionSecond.number);
+        return Integer.parseInt(calibrationNumberFirst.number + calibrationNumberLast.number);
     }
 }
