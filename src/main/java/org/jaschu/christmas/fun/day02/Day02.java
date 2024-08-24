@@ -32,12 +32,12 @@ public class Day02 extends AbstractPuzzle {
     @Override
     public String solvePart2() {
         List<String> lines = this.readFileLines();
-        AtomicInteger possibleGamesSum = new AtomicInteger();
+        AtomicInteger gamePowerSum = new AtomicInteger();
         lines.forEach(line -> {
             CubeGame possibleGame = CubeGame.generateCubeGame(line);
             int gamePower = possibleGame.getRedCubes() * possibleGame.getGreenCubes() * possibleGame.getBlueCubes();
-            possibleGamesSum.addAndGet(gamePower);
+            gamePowerSum.addAndGet(gamePower);
         });
-        return String.valueOf(possibleGamesSum.get());
+        return String.valueOf(gamePowerSum.get());
     }
 }
