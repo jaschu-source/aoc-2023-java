@@ -30,7 +30,7 @@ public class Day03 extends AbstractPuzzle {
                     schematicsEntry.setAlreadyCounted(true);
                     schematicsEntry.setFullNumber(schematicsEntries.get(rowNumber), position);
 
-                    if (schematicsEntry.isSchematic(rowNumber, position, schematicsEntries)) {
+                    if (schematicsEntry.isSchematicPartOne(rowNumber, position, schematicsEntries)) {
                         schematicsSum += Integer.parseInt(schematicsEntry.getFullNumberWithSurroundings());
                     }
 

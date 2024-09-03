@@ -22,7 +22,9 @@ public class SchematicsEntry {
         Matcher numberMatcher = numberPattern.matcher(characterValue.toString());
         if(characterValue.equals('.')) {
             this.schematicsType = SchematicsType.DOT;
-        } else if(numberMatcher.matches()) {
+        } else if(characterValue.equals('*')) {
+            this.schematicsType = SchematicsType.ASTERISK;
+        }else if(numberMatcher.matches()) {
             this.schematicsType = SchematicsType.NUMBER;
         } else {
             this.schematicsType = SchematicsType.SYMBOL;
@@ -56,19 +58,21 @@ public class SchematicsEntry {
         }
     }
 
-    public boolean isSchematic(int rowNumber, int schemaPosition, List<List<SchematicsEntry>> schematicsEntries) {
+    public boolean isSchematicPartOne(int rowNumber, int schemaPosition, List<List<SchematicsEntry>> schematicsEntries) {
         //determine surrounding positions
         int numberEnd = schemaPosition + this.getFullNumberWithSurroundings().length() - 1;
 
         boolean schematic = false;
 
-        for(int currentRow = rowNumber - 1; currentRow <= rowNumber +1 ; currentRow++) {
+        for(int currentRow = rowNumber - 1; currentRow <= rowNumber +1; currentRow++) {
             for(int position = schemaPosition - 1; position <= numberEnd + 1; position++) {
                 if(schematicsEntries.size() > currentRow
                         && currentRow >= 0
                         && position >= 0
                         && schematicsEntries.get(currentRow).size() > position
-                        && schematicsEntries.get(currentRow).get(position).schematicsType.equals(SchematicsType.SYMBOL)) {
+                        && (schematicsEntries.get(currentRow).get(position).schematicsType.equals(SchematicsType.SYMBOL)
+                        || schematicsEntries.get(currentRow).get(position).schematicsType.equals(SchematicsType.ASTERISK))
+                ) {
                     schematic = true;
                     break;
                 }
