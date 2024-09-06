@@ -26,11 +26,12 @@ public class Day03 extends AbstractPuzzle {
         for(int rowNumber = 0; rowNumber < schematicsEntries.size(); rowNumber++) {
             for(int position = 0; position < schematicsEntries.get(rowNumber).size(); position++) {
                 SchematicsEntry schematicsEntry = schematicsEntries.get(rowNumber).get(position);
-                if(schematicsEntry.getSchematicsType().equals(SchematicsType.NUMBER) && !schematicsEntry.isAlreadyCounted()) {
-                    schematicsEntry.setAlreadyCounted(true);
+                if(schematicsEntry.getSchematicsType().equals(SchematicsType.NUMBER) && !schematicsEntry.isNumberPart()) {
+                    schematicsEntry.setNumberPart(true);
                     schematicsEntry.setFullNumber(schematicsEntries.get(rowNumber), position);
+                    schematicsEntry.setSchematic(rowNumber, position, schematicsEntries, List.of(SchematicsType.SYMBOL, SchematicsType.ASTERISK));
 
-                    if (schematicsEntry.isSchematicPartOne(rowNumber, position, schematicsEntries)) {
+                    if (schematicsEntry.isSchematic()) {
                         schematicsSum += Integer.parseInt(schematicsEntry.getFullNumberWithSurroundings());
                     }
 
@@ -44,6 +45,39 @@ public class Day03 extends AbstractPuzzle {
 
     @Override
     public String solvePart2() {
-        return null;
+        List<String> lines = this.readFileLines();
+        int schematicsSum = 0;
+        // collect some additional info first
+        List<List<SchematicsEntry>> schematicsEntries = lines.stream()
+                .map((line) -> line.chars().mapToObj(c -> new SchematicsEntry((char) c)).toList())
+                .toList();
+
+        // initialize full numbers
+        for(int rowNumber = 0; rowNumber < schematicsEntries.size(); rowNumber++) {
+            for(int position = 0; position < schematicsEntries.get(rowNumber).size(); position++) {
+                SchematicsEntry schematicsEntry = schematicsEntries.get(rowNumber).get(position);
+                if(schematicsEntry.getSchematicsType().equals(SchematicsType.NUMBER)) {
+                    if(!schematicsEntry.isNumberPart()) {
+                        schematicsEntry.setNumberPart(true);
+                        schematicsEntry.setFullNumber(schematicsEntries.get(rowNumber), position);
+                    } else {
+                        schematicsEntry.setFullNumberWithSurroundings(schematicsEntries.get(rowNumber).get(position - 1).getFullNumberWithSurroundings());
+                    }
+                }
+            }
+        }
+
+        // find all schematicsentry with type asterics and search for surrounding numbers to multipy
+        for(int rowNumber = 0; rowNumber < schematicsEntries.size(); rowNumber++) {
+            for (int position = 0; position < schematicsEntries.get(rowNumber).size(); position++) {
+                SchematicsEntry schematicsEntry = schematicsEntries.get(rowNumber).get(position);
+                if (schematicsEntry.getSchematicsType().equals(SchematicsType.ASTERISK)) {
+                    // search for surrounding number
+                }
+            }
+        }
+
+
+        return String.valueOf(schematicsSum);
     }
 }
