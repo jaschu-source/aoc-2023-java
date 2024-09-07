@@ -53,15 +53,15 @@ public class Day03 extends AbstractPuzzle {
                 .toList();
 
         // initialize full numbers
-        for(int rowNumber = 0; rowNumber < schematicsEntries.size(); rowNumber++) {
-            for(int position = 0; position < schematicsEntries.get(rowNumber).size(); position++) {
-                SchematicsEntry schematicsEntry = schematicsEntries.get(rowNumber).get(position);
-                if(schematicsEntry.getSchematicsType().equals(SchematicsType.NUMBER)) {
-                    if(!schematicsEntry.isNumberPart()) {
+        for (List<SchematicsEntry> entry : schematicsEntries) {
+            for (int position = 0; position < entry.size(); position++) {
+                SchematicsEntry schematicsEntry = entry.get(position);
+                if (schematicsEntry.getSchematicsType().equals(SchematicsType.NUMBER)) {
+                    if (!schematicsEntry.isNumberPart()) {
                         schematicsEntry.setNumberPart(true);
-                        schematicsEntry.setFullNumber(schematicsEntries.get(rowNumber), position);
+                        schematicsEntry.setFullNumber(entry, position);
                     } else {
-                        schematicsEntry.setFullNumberWithSurroundings(schematicsEntries.get(rowNumber).get(position - 1).getFullNumberWithSurroundings());
+                        schematicsEntry.setFullNumberWithSurroundings(entry.get(position - 1).getFullNumberWithSurroundings());
                     }
                 }
             }
@@ -72,7 +72,7 @@ public class Day03 extends AbstractPuzzle {
             for (int position = 0; position < schematicsEntries.get(rowNumber).size(); position++) {
                 SchematicsEntry schematicsEntry = schematicsEntries.get(rowNumber).get(position);
                 if (schematicsEntry.getSchematicsType().equals(SchematicsType.ASTERISK)) {
-                    // search for surrounding number
+                    schematicsSum += schematicsEntry.getSurroundingNumbersMultiplication(rowNumber, position, schematicsEntries);
                 }
             }
         }

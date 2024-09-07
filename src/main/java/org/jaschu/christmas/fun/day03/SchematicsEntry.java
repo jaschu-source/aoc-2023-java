@@ -15,8 +15,7 @@ public class SchematicsEntry {
     private boolean numberPart = false; // already checked, if part of a bigger number
     private String fullNumberWithSurroundings;
 
-    private boolean checkIfPartOfSchematics = false; // if true, already checked if part of the schematics needed for repair
-
+    private boolean alreadyCheckedIfPartOfSchematics = false; // if true, already checked if part of the schematics needed for repair
     private boolean isSchematic = false;
 
     public SchematicsEntry(Character characterValue) {
@@ -90,26 +89,36 @@ public class SchematicsEntry {
         this.isSchematic = schematic;
     }
 
-    public boolean multiplySchematics(int rowNumber, int schemaPosition, List<List<SchematicsEntry>> schematicsEntries) {
-        //determine surrounding positions
-        int numberEnd = schemaPosition + this.getFullNumberWithSurroundings().length() - 1;
-
-        boolean schematic = false;
-
+    public int getSurroundingNumbersMultiplication(int rowNumber, int schemaPosition, List<List<SchematicsEntry>> schematicsEntries) {
+        int numberMultiplication = 1;
+        int numberCount = 0;
         for(int currentRow = rowNumber - 1; currentRow <= rowNumber +1; currentRow++) {
-            for(int position = schemaPosition - 1; position <= numberEnd + 1; position++) {
+            for (int position = schemaPosition - 1; position <= schemaPosition + 1; position++) {
                 if(schematicsEntries.size() > currentRow
                         && currentRow >= 0
                         && position >= 0
                         && schematicsEntries.get(currentRow).size() > position
-                        && (schematicsEntries.get(currentRow).get(position).schematicsType.equals(SchematicsType.SYMBOL)
-                        || schematicsEntries.get(currentRow).get(position).schematicsType.equals(SchematicsType.ASTERISK))
+                        && schematicsEntries.get(currentRow).get(position).schematicsType.equals(SchematicsType.NUMBER)
+                        && !schematicsEntries.get(currentRow).get(position).alreadyCheckedIfPartOfSchematics
                 ) {
-                    schematic = true;
-                    break;
+                    numberCount++;
+                    numberMultiplication *= Integer.parseInt(schematicsEntries.get(currentRow).get(position).getFullNumberWithSurroundings());
+
+                    // because we know max character count of full number is max 3 its fine to only check 2 following
+                    SchematicsEntry followingEntry1 = schematicsEntries.get(currentRow).get(position + 1);
+
+                    if (followingEntry1 != null && followingEntry1.schematicsType.equals(SchematicsType.NUMBER)) {
+                        followingEntry1.alreadyCheckedIfPartOfSchematics = true;
+                        // only check for second entry if first entry was number to avoid marking adjacent numbers
+                        SchematicsEntry followingEntry2 = schematicsEntries.get(currentRow).get(position + 2);
+                        if (followingEntry2 != null && followingEntry2.schematicsType.equals(SchematicsType.NUMBER))
+                            followingEntry2.alreadyCheckedIfPartOfSchematics = true;
+                    }
                 }
             }
         }
-        return schematic;
+
+        // only * that are surrounded by 2 numbers count
+        return numberCount == 2 ? numberMultiplication : 0;
     }
 }
