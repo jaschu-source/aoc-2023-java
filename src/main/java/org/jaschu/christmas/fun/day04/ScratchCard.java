@@ -11,7 +11,9 @@ public class ScratchCard {
     private List<Integer> playerNumbers; // numbers on the scratchcard
 
     /**
-     * expects a string representing a card, with format Card <i>numberOfCard</i>: <i>winningNumbers</i> | <i>playerNumbers</i>
+     * expects a string representing a card, with format "Card <i>numberOfCard</i>: <i>winningNumbers</i> | <i>playerNumbers</i>"<br/>
+     * example<br/>
+     * Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
      */
     public ScratchCard(String cardString) {
         String[] cardInfos = cardString.split(":\\s");
