@@ -20,6 +20,7 @@ public class ScratchCard {
      * Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
      */
     public ScratchCard(String cardString) {
+        this.ownedCopies = 1;
         String[] cardInfos = cardString.split(":\\s+");
         if (cardInfos.length == 2) {
             String cardDetailString = cardInfos[1];
@@ -41,6 +42,22 @@ public class ScratchCard {
             if (winningNumber != null && playerNumbers.contains(winningNumber)) {
                 if (points.get() > 0) {
                     points.set(points.get() * 2);
+                } else {
+                    points.set(1);
+                }
+            }
+        });
+
+        return points.get();
+    }
+
+    public int calculateNumberOfBonusCards() {
+        AtomicInteger points = new AtomicInteger(0);
+
+        winningNumbers.forEach(winningNumber -> {
+            if (winningNumber != null && playerNumbers.contains(winningNumber)) {
+                if (points.get() > 0) {
+                    points.addAndGet(1);
                 } else {
                     points.set(1);
                 }

@@ -13,5 +13,7 @@ class Day04Test {
 
     @Test
     void solvePart2() {
+        Day04 day04 = new Day04("04-example.txt");
+        assertThat(day04.solvePart2()).isEqualTo("30");
     }
 }

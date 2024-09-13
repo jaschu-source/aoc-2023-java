@@ -28,6 +28,17 @@ public class Day04 extends AbstractPuzzle {
 
     @Override
     public String solvePart2() {
+        List<String> lines = this.readFileLines();
+        List<ScratchCard> scratchCards = lines.stream().map(ScratchCard::new).toList();
+        for (int i = 0; i < scratchCards.size(); i++) {
+            int numberAdditionalCopies = scratchCards.get(i).calculateNumberOfBonusCards();
+            for (int j = 1;
+                 j <= numberAdditionalCopies && i + j < scratchCards.size(); j++) {
+                // the copies that are won also win more copies
+                // recursion ?
+                scratchCards.get(i + j).setOwnedCopies(scratchCards.get(i + j).getOwnedCopies() + 1);
+            }
+        }
         return null;
     }
 }
