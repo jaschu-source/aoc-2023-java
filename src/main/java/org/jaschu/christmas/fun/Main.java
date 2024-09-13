@@ -38,7 +38,7 @@ public class Main {
         System.out.println();
         System.out.println("-- Day 04: Winning the lottery --");
         Day04 day04 = new Day04("04.txt");
-        System.out.println("Scratch Card Points 1: " + day04.solvePart1());
-        System.out.println("Scratch Card Points 2: " + day04.solvePart2());
+        System.out.println("Scratch Card Points: " + day04.solvePart1());
+        System.out.println("Pile of Scratch Cards: " + day04.solvePart2());
     }
 }

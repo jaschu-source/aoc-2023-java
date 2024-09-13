@@ -31,14 +31,18 @@ public class Day04 extends AbstractPuzzle {
         List<String> lines = this.readFileLines();
         List<ScratchCard> scratchCards = lines.stream().map(ScratchCard::new).toList();
         for (int i = 0; i < scratchCards.size(); i++) {
-            int numberAdditionalCopies = scratchCards.get(i).calculateNumberOfBonusCards();
-            for (int j = 1;
-                 j <= numberAdditionalCopies && i + j < scratchCards.size(); j++) {
-                // the copies that are won also win more copies
-                // recursion ?
-                scratchCards.get(i + j).setOwnedCopies(scratchCards.get(i + j).getOwnedCopies() + 1);
-            }
+            calculateOwnedCopies(scratchCards, i);
         }
-        return null;
+        return String.valueOf(scratchCards.stream().mapToInt(ScratchCard::getOwnedCopies).sum());
+    }
+
+    private static void calculateOwnedCopies(List<ScratchCard> scratchCards, int i) {
+        int numberAdditionalCopies = scratchCards.get(i).calculateNumberOfBonusCards();
+        for (int j = 1;
+             j <= numberAdditionalCopies && i + j < scratchCards.size(); j++) {
+            scratchCards.get(i + j).setOwnedCopies(scratchCards.get(i + j).getOwnedCopies() + 1);
+            // the copies that are won also win more copies
+            calculateOwnedCopies(scratchCards, i + j);
+        }
     }
 }
