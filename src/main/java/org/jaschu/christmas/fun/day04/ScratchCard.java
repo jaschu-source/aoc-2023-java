@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.apache.commons.lang3.StringUtils.isNumeric;
 
 @Data
 public class ScratchCard {
@@ -19,12 +22,34 @@ public class ScratchCard {
         String[] cardInfos = cardString.split(":\\s");
         if (cardInfos.length == 2) {
             String cardDetailString = cardInfos[1];
-            String[] cardDetails = cardDetailString.split("\\s\\|\\s");
-            this.winningNumbers = Arrays.stream(cardDetails[0].split("\\s+")).map(Integer::parseInt).toList();
-            this.playerNumbers = Arrays.stream(cardDetails[1].split("\\s+")).map(Integer::parseInt).toList();
+            List<String> cardDetails = Arrays.stream(cardDetailString.split("\\s\\|\\s+")).toList();
+            try {
+                this.winningNumbers = Arrays.stream(cardDetails.get(0).split("\\s+"))
+                        .map((detail) -> isNumeric(detail) ? Integer.parseInt(detail) : null).toList();
+                this.playerNumbers = Arrays.stream(cardDetails.get(1).split("\\s+"))
+                        .map((detail) -> isNumeric(detail) ? Integer.parseInt(detail) : null).toList();
+            } catch (NumberFormatException n) {
+                // do nothing, we can just ignore empty string or other non numbers
+            }
         } else {
             throw new IllegalArgumentException("Input string doesn't meet requirements for scratch card generation.");
         }
-
     }
+
+    public int getPoints() {
+        AtomicInteger points = new AtomicInteger(0);
+
+        winningNumbers.forEach(winningNumber -> {
+            if (winningNumber != null && playerNumbers.contains(winningNumber)) {
+                if (points.get() > 0) {
+                    points.set(points.get() * 2);
+                } else {
+                    points.set(1);
+                }
+            }
+        });
+
+        return points.get();
+    }
+
 }
