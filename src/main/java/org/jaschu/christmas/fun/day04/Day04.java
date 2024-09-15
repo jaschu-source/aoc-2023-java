@@ -36,13 +36,13 @@ public class Day04 extends AbstractPuzzle {
         return String.valueOf(scratchCards.stream().mapToInt(ScratchCard::getOwnedCopies).sum());
     }
 
-    private static void calculateOwnedCopies(List<ScratchCard> scratchCards, int i) {
-        int numberAdditionalCopies = scratchCards.get(i).calculateNumberOfBonusCards();
+    private static void calculateOwnedCopies(List<ScratchCard> scratchCards, int cardPosition) {
+        int numberAdditionalCopies = scratchCards.get(cardPosition).calculateNumberOfBonusCards();
         for (int j = 1;
-             j <= numberAdditionalCopies && i + j < scratchCards.size(); j++) {
-            scratchCards.get(i + j).setOwnedCopies(scratchCards.get(i + j).getOwnedCopies() + 1);
+             j <= numberAdditionalCopies && cardPosition + j < scratchCards.size(); j++) {
+            scratchCards.get(cardPosition + j).setOwnedCopies(scratchCards.get(cardPosition + j).getOwnedCopies() + 1);
             // the copies that are won also win more copies
-            calculateOwnedCopies(scratchCards, i + j);
+            calculateOwnedCopies(scratchCards, cardPosition + j);
         }
     }
 }
