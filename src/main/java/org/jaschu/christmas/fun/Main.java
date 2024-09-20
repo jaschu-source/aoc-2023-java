@@ -1,6 +1,6 @@
 package org.jaschu.christmas.fun;
 
-import org.jaschu.christmas.fun.day04.Day04;
+import org.jaschu.christmas.fun.day05.Day05;
 
 public class Main {
     public static void main(String[] args) {
@@ -42,7 +42,7 @@ public class Main {
         System.out.println("-------------------------------------------------------------------");
         System.out.println();
         System.out.println("-- Day 05: Winning the lottery --");
-        Day04 day05 = new Day04("05.txt");
+        Day05 day05 = new Day05("05.txt");
         System.out.println("Closest Location: " + day05.solvePart1());
         System.out.println("??: " + day05.solvePart2());
     }
