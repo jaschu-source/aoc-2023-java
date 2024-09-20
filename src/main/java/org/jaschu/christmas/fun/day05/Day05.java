@@ -17,8 +17,8 @@ public class Day05 extends AbstractPuzzle {
     @Override
     public String solvePart1() {
         List<String> lines = this.readFileLines();
-        SmallAlmanac smallAlmanac = new SmallAlmanac(lines);
-        return String.valueOf(smallAlmanac.getClosestLocation());
+        Almanac almanac = new Almanac(lines);
+        return almanac.getClosestLocation();
     }
 
     @Override
