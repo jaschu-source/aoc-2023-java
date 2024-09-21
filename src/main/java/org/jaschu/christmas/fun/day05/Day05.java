@@ -23,6 +23,8 @@ public class Day05 extends AbstractPuzzle {
 
     @Override
     public String solvePart2() {
-        return null;
+        List<String> lines = this.readFileLines();
+        Almanac almanac = new Almanac(lines);
+        return almanac.getClosestLocationFromSeedRange();
     }
 }
