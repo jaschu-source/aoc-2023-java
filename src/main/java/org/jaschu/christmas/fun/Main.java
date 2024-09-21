@@ -41,7 +41,7 @@ public class Main {
         System.out.println();
         System.out.println("-------------------------------------------------------------------");
         System.out.println();
-        System.out.println("-- Day 05: Winning the lottery --");
+        System.out.println("-- Day 05: Planting seeds --");
         Day05 day05 = new Day05("05.txt");
 //        System.out.println("Closest Location: " + day05.solvePart1());
         System.out.println("Closest Location for a lot of seeds: " + day05.solvePart2());

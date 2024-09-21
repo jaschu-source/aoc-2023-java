@@ -3,7 +3,6 @@ package org.jaschu.christmas.fun.day05;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Almanac {
@@ -72,6 +71,7 @@ public class Almanac {
         return closestLocation.get();
 
     }
+
     public String getClosestLocation() {
         AtomicReference<String> location = new AtomicReference<>("");
         seeds.forEach(seed -> {
@@ -94,17 +94,23 @@ public class Almanac {
 
     private String getValueFromMaps(List<AlmanacMap> almanacMaps, String key) {
         final long longKey = Long.parseLong(key);
-        AtomicLong value = new AtomicLong(Long.parseLong(key));
-        almanacMaps.forEach(almanacMap -> {
-            long sourceRangeStart = Long.parseLong(almanacMap.sourceRangeStart);
-            long destinationRangeStart = Long.parseLong(almanacMap.destinationRangeStart);
-            long rangeLenght = Long.parseLong(almanacMap.rangeLength);
-            if (longKey > sourceRangeStart && longKey < sourceRangeStart + rangeLenght) {
-                value.set(destinationRangeStart + (longKey - sourceRangeStart));
-            }
-        });
-        return String.valueOf(value.get());
+
+        return almanacMaps.parallelStream()
+                .filter(almanacMap -> {
+                    long sourceRangeStart = Long.parseLong(almanacMap.sourceRangeStart);
+                    long rangeLength = Long.parseLong(almanacMap.rangeLength);
+                    return longKey >= sourceRangeStart && longKey < sourceRangeStart + rangeLength;
+                })
+                .findFirst()  // Only need the almanac that contains the key
+                .map(almanacMap -> {
+                    long sourceRangeStart = Long.parseLong(almanacMap.sourceRangeStart);
+                    long destinationRangeStart = Long.parseLong(almanacMap.destinationRangeStart);
+                    return destinationRangeStart + (longKey - sourceRangeStart);
+                })
+                .map(String::valueOf)
+                .orElse(key);  // Return the original key if no match is found
     }
+
 
     private void setSeeds(String seeds) {
         this.seeds = Arrays.stream(seeds.substring(1).split(" ")).toList();
