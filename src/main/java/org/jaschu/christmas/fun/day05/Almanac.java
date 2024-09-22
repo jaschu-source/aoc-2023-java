@@ -53,16 +53,9 @@ public class Almanac {
             String rangeEndLocation = getLocationFromMaps(String.valueOf(seedRangeEnd));
 
             if (!expectedEndLocation.equals(rangeEndLocation)) {
-                long midPoint = seedRangeStart + (seedRangeEnd - seedRangeStart) / 2;
-                AtomicReference<String> midLocation = new AtomicReference<>(getLocationFromMaps(String.valueOf(midPoint)));
-                String expectedMidPointLocation = getLocationFromMaps(String.valueOf(Long.parseLong(newLocation.get()) + (seedRangeEnd - seedRangeStart) / 2));
-                if (expectedMidPointLocation.equals(midLocation.get())) {
-                    updateClosestLocation(closestLocation, midLocation);
-                } else {
-                    for (long i = Long.parseLong(almanacMap.sourceRangeStart); i < Long.parseLong(almanacMap.sourceRangeStart) + Long.parseLong(almanacMap.rangeLength); i++) {
-                        newLocation.set(getLocationFromMaps(String.valueOf(i)));
-                        updateClosestLocation(closestLocation, newLocation);
-                    }
+                for (long i = seedRangeStart; i < seedRangeStart + Long.parseLong(almanacMap.rangeLength); i++) {
+                    newLocation.set(getLocationFromMaps(String.valueOf(i)));
+                    updateClosestLocation(closestLocation, newLocation);
                 }
             } else {
                 updateClosestLocation(closestLocation, newLocation);
