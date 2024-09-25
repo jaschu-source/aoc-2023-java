@@ -1,6 +1,6 @@
 package org.jaschu.christmas.fun;
 
-import org.jaschu.christmas.fun.day05.Day05;
+import org.jaschu.christmas.fun.day06.Day06;
 
 public class Main {
     public static void main(String[] args) {
@@ -38,12 +38,20 @@ public class Main {
 //        System.out.println("Scratch Card Points: " + day04.solvePart1());
 //        System.out.println("Pile of Scratch Cards: " + day04.solvePart2());
 
+//        System.out.println();
+//        System.out.println("-------------------------------------------------------------------");
+//        System.out.println();
+//        System.out.println("-- Day 05: Planting seeds --");
+//        Day05 day05 = new Day05("05.txt");
+//        System.out.println("Closest Location: " + day05.solvePart1());
+//        System.out.println("Closest Location for a lot of seeds: " + day05.solvePart2());
+
         System.out.println();
         System.out.println("-------------------------------------------------------------------");
         System.out.println();
-        System.out.println("-- Day 05: Planting seeds --");
-        Day05 day05 = new Day05("05.txt");
-//        System.out.println("Closest Location: " + day05.solvePart1());
-        System.out.println("Closest Location for a lot of seeds: " + day05.solvePart2());
+        System.out.println("-- Day 06: Time to win a race --");
+        Day06 day06 = new Day06("06.txt");
+        System.out.println("Number of ways to win: " + day06.solvePart1());
+        System.out.println("Number of ways to win in long race: " + day06.solvePart2());
     }
 }
