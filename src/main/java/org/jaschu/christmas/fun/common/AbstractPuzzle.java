@@ -11,6 +11,7 @@ import java.util.List;
  */
 public abstract class AbstractPuzzle {
     private final String _puzzleInput;
+    public final List<String> lines;
 
     /**
      * Constructor which accepts the puzzle input to be solved.
@@ -19,6 +20,7 @@ public abstract class AbstractPuzzle {
      */
     public AbstractPuzzle(String puzzleFileName) {
         _puzzleInput = puzzleFileName;
+        lines = this.readFileLines();
     }
 
     /**

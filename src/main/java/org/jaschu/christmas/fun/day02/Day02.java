@@ -2,7 +2,6 @@ package org.jaschu.christmas.fun.day02;
 
 import org.jaschu.christmas.fun.common.AbstractPuzzle;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Day02 extends AbstractPuzzle {
@@ -20,7 +19,6 @@ public class Day02 extends AbstractPuzzle {
 
     @Override
     public String solvePart1() {
-        List<String> lines = this.readFileLines();
         AtomicInteger possibleGamesSum = new AtomicInteger();
         lines.forEach(line -> {
             CubeGame possibleGame = CubeGame.generateCubeGame(line);
@@ -31,7 +29,6 @@ public class Day02 extends AbstractPuzzle {
 
     @Override
     public String solvePart2() {
-        List<String> lines = this.readFileLines();
         AtomicInteger gamePowerSum = new AtomicInteger();
         lines.forEach(line -> {
             CubeGame possibleGame = CubeGame.generateCubeGame(line);

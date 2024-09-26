@@ -16,7 +16,6 @@ public class Day03 extends AbstractPuzzle {
 
     @Override
     public String solvePart1() {
-        List<String> lines = this.readFileLines();
         int schematicsSum = 0;
         // collect some additional info first
         List<List<SchematicsEntry>> schematicsEntries = lines.stream()
@@ -45,7 +44,6 @@ public class Day03 extends AbstractPuzzle {
 
     @Override
     public String solvePart2() {
-        List<String> lines = this.readFileLines();
         int schematicsSum = 0;
         // collect some additional info first
         List<List<SchematicsEntry>> schematicsEntries = lines.stream()

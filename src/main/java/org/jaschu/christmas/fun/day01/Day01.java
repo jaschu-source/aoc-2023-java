@@ -20,7 +20,6 @@ public class Day01 extends AbstractPuzzle {
     @Override
     public String solvePart1() {
         AtomicInteger calibrationNumberSum = new AtomicInteger();
-        List<String> lines = this.readFileLines();
         lines.forEach(line -> {
             List<Character> characters = line.chars().mapToObj(c -> (char) c).toList();
             List<Character> numbers = characters.stream().filter(character -> StringUtils.isNumeric(Character.toString(character))).toList();
@@ -31,7 +30,6 @@ public class Day01 extends AbstractPuzzle {
 
     @Override
     public String solvePart2() {
-        List<String> lines = this.readFileLines();
         AtomicInteger calibrationNumberSum = new AtomicInteger();
 
         lines.forEach(line -> calibrationNumberSum.addAndGet(addCalibrationValuesWithPossibleNumbers(line)));

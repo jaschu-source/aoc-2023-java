@@ -17,7 +17,6 @@ public class Day04 extends AbstractPuzzle {
 
     @Override
     public String solvePart1() {
-        List<String> lines = this.readFileLines();
         AtomicInteger finalPoints = new AtomicInteger();
         lines.forEach(line -> {
             ScratchCard scratchCard = new ScratchCard(line);
@@ -28,7 +27,6 @@ public class Day04 extends AbstractPuzzle {
 
     @Override
     public String solvePart2() {
-        List<String> lines = this.readFileLines();
         List<ScratchCard> scratchCards = lines.stream().map(ScratchCard::new).toList();
         for (int i = 0; i < scratchCards.size(); i++) {
             calculateOwnedCopies(scratchCards, i);

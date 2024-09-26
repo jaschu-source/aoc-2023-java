@@ -1,26 +1,25 @@
-package org.jaschu.christmas.fun.day05;
+package org.jaschu.christmas.fun.day07;
 
 import org.jaschu.christmas.fun.common.AbstractPuzzle;
 
-public class Day05 extends AbstractPuzzle {
+public class Day07 extends AbstractPuzzle {
     /**
      * Constructor which accepts the puzzle input to be solved.
      *
      * @param puzzleFileName the puzzle input
      */
-    public Day05(String puzzleFileName) {
+    public Day07(String puzzleFileName) {
         super(puzzleFileName);
     }
 
     @Override
     public String solvePart1() {
-        Almanac almanac = new Almanac(lines);
-        return almanac.getClosestLocation();
+        CamelCardGame camelCardGame = new CamelCardGame(lines);
+        return null;
     }
 
     @Override
     public String solvePart2() {
-        Almanac almanac = new Almanac(lines);
-        return almanac.getClosestLocationFromSeedRange();
+        return null;
     }
 }
