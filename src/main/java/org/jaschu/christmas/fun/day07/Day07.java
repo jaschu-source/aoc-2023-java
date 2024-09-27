@@ -15,7 +15,7 @@ public class Day07 extends AbstractPuzzle {
     @Override
     public String solvePart1() {
         CamelCardGame camelCardGame = new CamelCardGame(lines);
-        return null;
+        return String.valueOf(camelCardGame.getTotalWinnings());
     }
 
     @Override
