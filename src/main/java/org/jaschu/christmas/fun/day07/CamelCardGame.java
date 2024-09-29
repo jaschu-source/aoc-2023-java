@@ -1,22 +1,25 @@
 package org.jaschu.christmas.fun.day07;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CamelCardGame {
-    private List<CamelCardHand> camelCardHands;
+    private final List<CamelCardHand> camelCardHands;
 
     public CamelCardGame(List<String> input) {
         camelCardHands = new ArrayList<>();
         input.forEach(hand -> camelCardHands.add(new CamelCardHand(hand)));
+        Collections.sort(camelCardHands);
     }
 
     public int getTotalWinnings() {
-        AtomicInteger total = new AtomicInteger();
+        int total = 0;
         // TODO evaluate each hands rank compared to the other hands
-        camelCardHands.forEach(camelCardHand -> total.set(total.get() + camelCardHand.getScore()));
-        return total.get();
+        for (int i = 1; i <= camelCardHands.size(); i++) {
+            total += camelCardHands.get(i - 1).getScore(i);
+        }
+        return total;
     }
 
 

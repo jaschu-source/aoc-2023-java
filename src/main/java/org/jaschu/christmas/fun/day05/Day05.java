@@ -18,6 +18,9 @@ public class Day05 extends AbstractPuzzle {
         return almanac.getClosestLocation();
     }
 
+    /**
+     * caution this is very slow for big values
+     */
     @Override
     public String solvePart2() {
         Almanac almanac = new Almanac(lines);

@@ -1,6 +1,6 @@
 package org.jaschu.christmas.fun;
 
-import org.jaschu.christmas.fun.day06.Day06;
+import org.jaschu.christmas.fun.day07.Day07;
 
 public class Main {
     public static void main(String[] args) {
@@ -46,12 +46,20 @@ public class Main {
 //        System.out.println("Closest Location: " + day05.solvePart1());
 //        System.out.println("Closest Location for a lot of seeds: " + day05.solvePart2());
 
+//        System.out.println();
+//        System.out.println("-------------------------------------------------------------------");
+//        System.out.println();
+//        System.out.println("-- Day 06: Time to win a race --");
+//        Day06 day06 = new Day06("06.txt");
+//        System.out.println("Number of ways to win: " + day06.solvePart1());
+//        System.out.println("Number of ways to win in long race: " + day06.solvePart2());
+
         System.out.println();
         System.out.println("-------------------------------------------------------------------");
         System.out.println();
-        System.out.println("-- Day 06: Time to win a race --");
-        Day06 day06 = new Day06("06.txt");
-        System.out.println("Number of ways to win: " + day06.solvePart1());
-        System.out.println("Number of ways to win in long race: " + day06.solvePart2());
+        System.out.println("-- Day 07: A game of CamelCards --");
+        Day07 day07 = new Day07("07.txt");
+        System.out.println("Lets get into the game: " + day07.solvePart1());
+        System.out.println("Number of ways to win in long race: " + day07.solvePart2());
     }
 }
