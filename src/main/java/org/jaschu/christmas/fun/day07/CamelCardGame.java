@@ -15,7 +15,6 @@ public class CamelCardGame {
 
     public int getTotalWinnings() {
         int total = 0;
-        // TODO evaluate each hands rank compared to the other hands
         for (int i = 1; i <= camelCardHands.size(); i++) {
             total += camelCardHands.get(i - 1).getScore(i);
         }

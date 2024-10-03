@@ -37,7 +37,7 @@ public class CamelCardHand implements Comparable<CamelCardHand> {
             while (!hand.isEmpty()) {
                 String currentCharacter = String.valueOf(characters.get(i));
                 if (heldCards.stream().filter(card -> card.getTypeOfCard().equals(currentCharacter)).toList().isEmpty()) {
-                    heldCards.add(new Card(currentCharacter, StringUtils.countMatches(input, currentCharacter)));
+                    heldCards.add(new Card(currentCharacter, StringUtils.countMatches(hand, currentCharacter)));
                     hand = hand.replaceAll(currentCharacter, "");
                 }
                 i++;
