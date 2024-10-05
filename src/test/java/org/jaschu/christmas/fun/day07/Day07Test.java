@@ -7,10 +7,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class Day07Test {
     private Day07 day07;
+    private Day07 day072;
 
     @BeforeEach
     void setUp() {
         day07 = new Day07("07-example.txt");
+        day072 = new Day07("07-example-2.txt");
     }
 
     @Test
@@ -20,12 +22,16 @@ class Day07Test {
 
     @Test
     void solvePart1Test2() {
-        Day07 day072 = new Day07("07-example-2.txt");
         assertThat(day072.solvePart1()).isEqualTo("6592");
     }
 
     @Test
     void solvePart2() {
-        assertThat(day07.solvePart1()).isEqualTo("");
+        assertThat(day07.solvePart2()).isEqualTo("5905");
+    }
+
+    @Test
+    void solvePart2Test2() {
+        assertThat(day072.solvePart2()).isEqualTo("6839");
     }
 }

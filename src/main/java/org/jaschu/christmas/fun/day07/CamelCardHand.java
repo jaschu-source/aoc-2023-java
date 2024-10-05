@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public class CamelCardHand implements Comparable<CamelCardHand> {
-    private static final Map<String, Integer> possibleCardValuesMap = Map.of(
-            "A", 1, "K", 2, "Q", 3, "J", 4, "T", 5
-    );
+    protected static Map<String, Integer> possibleCardValuesMap;
 
     @Getter
-    private final String heldCardsString;
-    private final List<Card> heldCards;
+    protected final String heldCardsString;
+    protected final List<Card> heldCards;
 
     private final int bidAmount;
 
@@ -22,9 +20,12 @@ public class CamelCardHand implements Comparable<CamelCardHand> {
      * rank of card in general
      */
     @Getter
-    private double handTypePriority;
+    protected double handTypePriority;
 
     public CamelCardHand(String input) {
+        possibleCardValuesMap = Map.of(
+                "A", 1, "K", 2, "Q", 3, "J", 4, "T", 5
+        );
         heldCards = new ArrayList<>();
         String[] cardParameters = input.split("\\s+");
         if (cardParameters.length == 2) {
@@ -49,6 +50,32 @@ public class CamelCardHand implements Comparable<CamelCardHand> {
         evaluateHandType();
     }
 
+    public CamelCardHand(String input, boolean withJoker) {
+        possibleCardValuesMap = Map.of(
+                "A", 1, "K", 2, "Q", 3, "T", 4, "J", 5
+        );
+        heldCards = new ArrayList<>();
+        String[] cardParameters = input.split("\\s+");
+        if (cardParameters.length == 2) {
+            bidAmount = Integer.parseInt(cardParameters[1]);
+            String hand = cardParameters[0];
+            heldCardsString = hand;
+            List<Character> characters = hand.chars().mapToObj(c -> (char) c).toList();
+            int i = 0;
+
+            while (!hand.isEmpty()) {
+                String currentCharacter = String.valueOf(characters.get(i));
+                if (heldCards.stream().filter(card -> card.getTypeOfCard().equals(currentCharacter)).toList().isEmpty()) {
+                    heldCards.add(new Card(currentCharacter, StringUtils.countMatches(hand, currentCharacter)));
+                    hand = hand.replaceAll(currentCharacter, "");
+                }
+                i++;
+            }
+        } else {
+            throw new IllegalArgumentException("Wrong input format for camel card hand.");
+        }
+    }
+
     public int getScore(int rankInGame) {
         return rankInGame * bidAmount;
     }
@@ -58,9 +85,8 @@ public class CamelCardHand implements Comparable<CamelCardHand> {
      * 2.1 Four of a kind // 2.2 Full house // 3.1 Three of a kind // 3.2 Two pair
      * 4 One pair // 5 High card
      */
-    private void evaluateHandType() {
+    protected void evaluateHandType() {
         // the hand needs to be evaluated to compare with others in the same game
-//        handTypePriority = this.heldCards.stream().collect(Collectors.groupingBy(Card::getTypeOfCard, Collectors.counting())).size();
         handTypePriority = this.heldCards.size();
 
         if (handTypePriority == 2) {
@@ -101,7 +127,7 @@ public class CamelCardHand implements Comparable<CamelCardHand> {
         return higher;
     }
 
-    private boolean isCardValueHigherNonNumeric(String value, String valueToCompareTo) {
+    protected boolean isCardValueHigherNonNumeric(String value, String valueToCompareTo) {
         return possibleCardValuesMap.get(value) < possibleCardValuesMap.get(valueToCompareTo);
     }
 }

@@ -13,6 +13,12 @@ public class CamelCardGame {
         Collections.sort(camelCardHands);
     }
 
+    public CamelCardGame(List<String> input, boolean withJoker) {
+        camelCardHands = new ArrayList<>();
+        input.forEach(hand -> camelCardHands.add(new CamelCardHandWithJoker(hand)));
+        Collections.sort(camelCardHands);
+    }
+
     public int getTotalWinnings() {
         int total = 0;
         for (int i = 1; i <= camelCardHands.size(); i++) {

@@ -60,6 +60,6 @@ public class Main {
         System.out.println("-- Day 07: A game of CamelCards --");
         Day07 day07 = new Day07("07.txt");
         System.out.println("Lets get into the game: " + day07.solvePart1());
-        System.out.println("Number of ways to win in long race: " + day07.solvePart2());
+        System.out.println("Suddenly there is a joker: " + day07.solvePart2());
     }
 }
