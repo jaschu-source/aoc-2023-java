@@ -20,6 +20,7 @@ public class Day08 extends AbstractPuzzle {
 
     @Override
     public String solvePart2() {
-        return null;
+        Network network = new Network(lines);
+        return String.valueOf(network.searchDestinationLikeAGhost());
     }
 }

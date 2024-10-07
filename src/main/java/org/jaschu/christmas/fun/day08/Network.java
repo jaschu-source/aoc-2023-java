@@ -1,18 +1,16 @@
 package org.jaschu.christmas.fun.day08;
 
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.List;
 
-@Getter
 public class Network {
     private String navigationInstructions;
-    private String startNode;
     private final HashMap<String, String[]> nodes;
+    private final HashMap<String, String> startEndMap;
 
     public Network(List<String> input) {
         nodes = new HashMap<>();
+        startEndMap = new HashMap<>();
         for (int i = 0; i < input.size(); i++) {
             if (i == 0) {
                 navigationInstructions = input.get(i);
@@ -22,16 +20,16 @@ public class Network {
                 String[] leftRight = parts[1].replaceAll("\\(", "").replaceAll("\\)", "").split(",");
 
                 nodes.put(parts[0], leftRight);
+                if (parts[0].endsWith("A")) startEndMap.put(parts[0], parts[0]);
             }
         }
     }
 
     // destination at ZZZ
     public int searchDestination() {
-        startNode = "AAA";
-        String destination = "ZZZ";
         int steps = 0;
-        String currentNode = startNode;
+        String currentNode = "AAA";
+        String destination = "ZZZ";
 
         while (!currentNode.equals(destination)) {
             for (int i = 0; i < navigationInstructions.length(); i++) {
@@ -44,9 +42,25 @@ public class Network {
                 }
                 if (currentNode.equals(destination)) break;
             }
-            System.out.println("Destination: " + destination);
-            System.out.println("Current: " + currentNode);
-            System.out.println("Steps: " + steps);
+        }
+        return steps;
+    }
+
+    public int searchDestinationLikeAGhost() {
+        int steps = 0;
+        boolean allDestinationsFound = false;
+
+        while (!allDestinationsFound) {
+            for (int i = 0; i < navigationInstructions.length(); i++) {
+                String instruction = navigationInstructions.substring(i, i + 1);
+                steps++;
+                startEndMap.entrySet().parallelStream().forEach((entry) -> startEndMap.put(entry.getKey(), instruction.equals("R") ? nodes.get(entry.getValue())[1] : nodes.get(entry.getValue())[0]));
+            }
+
+            System.out.println(steps);
+            if (startEndMap.entrySet().stream().filter(entry -> entry.getValue().endsWith("Z")).count() == startEndMap.size()) {
+                allDestinationsFound = true;
+            }
         }
         return steps;
     }

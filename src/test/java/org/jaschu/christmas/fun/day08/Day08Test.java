@@ -27,5 +27,7 @@ class Day08Test {
 
     @Test
     void solvePart2() {
+        Day08 day08part2 = new Day08("08-example-part2");
+        assertThat(day08part2.solvePart2()).isEqualTo("6");
     }
 }

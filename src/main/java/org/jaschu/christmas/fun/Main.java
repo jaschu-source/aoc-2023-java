@@ -68,6 +68,6 @@ public class Main {
         System.out.println("-- Day 08: Lost in the desert --");
         Day08 day08 = new Day08("08.txt");
         System.out.println("Searching for a place to sleep: " + day08.solvePart1());
-        System.out.println("Suddenly there is a joker: " + day08.solvePart2());
+        System.out.println("What do ghosts think like? : " + day08.solvePart2());
     }
 }
