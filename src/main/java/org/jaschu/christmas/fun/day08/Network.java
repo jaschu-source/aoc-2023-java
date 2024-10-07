@@ -20,7 +20,6 @@ public class Network {
                 String line = input.get(i).replaceAll("\\s", "");
                 String[] parts = line.split("=");
                 String[] leftRight = parts[1].replaceAll("\\(", "").replaceAll("\\)", "").split(",");
-                if (i == 2) startNode = parts[0];
 
                 nodes.put(parts[0], leftRight);
             }
@@ -29,12 +28,12 @@ public class Network {
 
     // destination at ZZZ
     public int searchDestination() {
-        int steps = 0;
+        startNode = "AAA";
         String destination = "ZZZ";
-        boolean destinationReached = false;
+        int steps = 0;
         String currentNode = startNode;
 
-        while (!destinationReached) {
+        while (!currentNode.equals(destination)) {
             for (int i = 0; i < navigationInstructions.length(); i++) {
                 String instruction = navigationInstructions.substring(i, i + 1);
                 steps++;
@@ -45,7 +44,9 @@ public class Network {
                 }
                 if (currentNode.equals(destination)) break;
             }
-            if (currentNode.equals(destination)) destinationReached = true;
+            System.out.println("Destination: " + destination);
+            System.out.println("Current: " + currentNode);
+            System.out.println("Steps: " + steps);
         }
         return steps;
     }
