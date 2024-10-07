@@ -46,8 +46,8 @@ public class Network {
         return steps;
     }
 
-    public int searchDestinationLikeAGhost() {
-        int steps = 0;
+    public long searchDestinationLikeAGhost() {
+        long steps = 0;
         boolean allDestinationsFound = false;
 
         while (!allDestinationsFound) {
