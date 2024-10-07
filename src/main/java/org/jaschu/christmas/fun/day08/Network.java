@@ -55,12 +55,13 @@ public class Network {
                 String instruction = navigationInstructions.substring(i, i + 1);
                 steps++;
                 startEndMap.entrySet().parallelStream().forEach((entry) -> startEndMap.put(entry.getKey(), instruction.equals("R") ? nodes.get(entry.getValue())[1] : nodes.get(entry.getValue())[0]));
-            }
 
-            System.out.println(steps);
-            if (startEndMap.entrySet().stream().filter(entry -> entry.getValue().endsWith("Z")).count() == startEndMap.size()) {
-                allDestinationsFound = true;
+                if (startEndMap.entrySet().stream().filter(entry -> entry.getValue().endsWith("Z")).count() == startEndMap.size()) {
+                    allDestinationsFound = true;
+                    break;
+                }
             }
+            System.out.println(steps);
         }
         return steps;
     }
