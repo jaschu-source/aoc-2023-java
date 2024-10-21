@@ -76,6 +76,6 @@ public class Main {
         System.out.println("-- Day 09: Ecological readings --");
         Day09 day09 = new Day09("09.txt");
         System.out.println("New Findings: " + day09.solvePart1());
-        System.out.println("What do ghosts think like? : " + day09.solvePart2());
+        System.out.println("Researching the past : " + day09.solvePart2());
     }
 }

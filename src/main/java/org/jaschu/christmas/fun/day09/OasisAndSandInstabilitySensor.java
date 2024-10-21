@@ -10,16 +10,12 @@ public class OasisAndSandInstabilitySensor {
 
     public OasisAndSandInstabilitySensor(List<String> input) {
         histories = new ArrayList<>();
-        input.forEach(line -> {
-            histories.add(line.split(" "));
-        });
+        input.forEach(line -> histories.add(line.split(" ")));
     }
 
     public String analyzeHistories(boolean pastValue) {
         AtomicInteger analyzedValue = new AtomicInteger();
-        histories.forEach(history -> {
-            analyzedValue.set(analyzedValue.get() + (pastValue ? findPastValue(history) : findNextValue(history)));
-        });
+        histories.forEach(history -> analyzedValue.set(analyzedValue.get() + (pastValue ? findPastValue(history) : findNextValue(history))));
         return String.valueOf(analyzedValue.get());
     }
 
@@ -47,8 +43,7 @@ public class OasisAndSandInstabilitySensor {
                 nextHistory[nextHistoryIndex] = String.valueOf(Integer.parseInt(history[i + 1]) - Integer.parseInt(history[i]));
                 nextHistoryIndex++;
             }
-            int result = Integer.parseInt(history[0]) - findNextValue(nextHistory);
-            return Integer.parseInt(history[0]) - findNextValue(nextHistory);
+            return Integer.parseInt(history[0]) - findPastValue(nextHistory);
         }
     }
 }
