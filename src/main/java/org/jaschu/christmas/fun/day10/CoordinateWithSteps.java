@@ -17,5 +17,13 @@ public class CoordinateWithSteps extends Coordinate {
         super.updatePosition(x, y);
         steps++;
     }
+
+    @Override
+    public void resetToPrevious() {
+        super.resetToPrevious();
+        steps--;
+    }
+
+
 }
 

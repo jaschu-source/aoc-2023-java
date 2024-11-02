@@ -37,13 +37,17 @@ public class PipeMaze {
 
     public int searchStepsToFurthestPoint() {
         findStartingPosition();
+        int pathTracker = 0;
 
-        do {  // traverse the pipe from both sides until the coordinates meet
-            for (CoordinateWithSteps coordinate : coordinates) {
-                findAndGoToNextCoordinate(coordinate);
+        while (pathTracker == 0 || !coordinates.get(0).equals(coordinates.get(1))) {
+            // traverse the pipe from both sides until the coordinates meet
+            for (int i = 0; i < coordinates.size(); i++) {
+                if (pathTracker == 0 || !coordinates.get(0).equals(coordinates.get(1)))
+                    findAndGoToNextCoordinate(coordinates.get(i), i, pathTracker);
+                pathTracker++;
             }
-        } while (coordinates.get(0).getX() != coordinates.get(1).getX() && coordinates.get(0).getY() != coordinates.get(1).getY());
-        return coordinates.get(0).getSteps(); // the coordinates overlap in the middle of the pipe, so it doesn't matter which one the steps are taken from
+        }
+        return Math.max(coordinates.get(0).getSteps(), coordinates.get(1).getSteps());
     }
 
     private void findStartingPosition() {
@@ -74,7 +78,7 @@ public class PipeMaze {
         possiblePipes.add(new Pipe("7", false, false, true, true));
         possiblePipes.add(new Pipe("F", false, true, true, false));
         possiblePipes.add(new Pipe(".", false, false, false, false));
-        possiblePipes.add(new Pipe("S", false, false, false, false));
+        possiblePipes.add(new Pipe("S", true, true, true, true));
 
         // Create a lookup map from symbol to Pipe object
         pipeMap = new HashMap<>();
@@ -84,16 +88,26 @@ public class PipeMaze {
 
     }
 
-    private void findAndGoToNextCoordinate(CoordinateWithSteps coordinate) {
+    private void findAndGoToNextCoordinate(CoordinateWithSteps coordinate, int coordinatesIndex, int stepRelation) {
+        Pipe currentTurn = map[coordinate.getY()][coordinate.getX()];
         Pipe nextTurn;
         CardinalDirection enteredFrom;
         try {
             //check east
             nextTurn = map[coordinate.getY()][coordinate.getX() + 1];
             enteredFrom = CardinalDirection.WEST;
-            if (nextTurn.isOpenToWest()) {
+            if (currentTurn.isOpenToEast() && nextTurn.isOpenToWest()) {
                 goToNextCoordinate(coordinate, nextTurn.getValue(), enteredFrom);
-                return;
+                if (stepRelation == 0 || stepRelation >= coordinates.size()) {
+                    return;
+                } else {
+                    if (coordinates.get(coordinatesIndex).getX() != coordinates.get(coordinatesIndex - 1).getX()
+                            && coordinates.get(coordinatesIndex).getY() != coordinates.get(coordinatesIndex - 1).getY()) {
+                        return;
+                    } else {
+                        coordinate.resetToPrevious();
+                    }
+                }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             // ignore
@@ -103,9 +117,18 @@ public class PipeMaze {
             // check south
             nextTurn = map[coordinate.getY() + 1][coordinate.getX()];
             enteredFrom = CardinalDirection.NORTH;
-            if (nextTurn.isOpenToNorth()) {
+            if (currentTurn.isOpenToSouth() && nextTurn.isOpenToNorth()) {
                 goToNextCoordinate(coordinate, nextTurn.getValue(), enteredFrom);
-                return;
+                if (stepRelation == 0 || stepRelation >= coordinates.size()) {
+                    return;
+                } else {
+                    if (coordinates.get(coordinatesIndex).getX() != coordinates.get(coordinatesIndex - 1).getX()
+                            && coordinates.get(coordinatesIndex).getY() != coordinates.get(coordinatesIndex - 1).getY()) {
+                        return;
+                    } else {
+                        coordinate.resetToPrevious();
+                    }
+                }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             // ignore
@@ -115,9 +138,18 @@ public class PipeMaze {
             // check west
             nextTurn = map[coordinate.getY()][coordinate.getX() - 1];
             enteredFrom = CardinalDirection.EAST;
-            if (nextTurn.isOpenToEast()) {
+            if (currentTurn.isOpenToWest() && nextTurn.isOpenToEast()) {
                 goToNextCoordinate(coordinate, nextTurn.getValue(), enteredFrom);
-                return;
+                if (stepRelation == 0 || stepRelation >= coordinates.size()) {
+                    return;
+                } else {
+                    if (coordinates.get(coordinatesIndex).getX() != coordinates.get(coordinatesIndex - 1).getX()
+                            && coordinates.get(coordinatesIndex).getY() != coordinates.get(coordinatesIndex - 1).getY()) {
+                        return;
+                    } else {
+                        coordinate.resetToPrevious();
+                    }
+                }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             // ignore
@@ -127,9 +159,7 @@ public class PipeMaze {
             // check north
             nextTurn = map[coordinate.getY() - 1][coordinate.getX()];
             enteredFrom = CardinalDirection.SOUTH;
-            if (nextTurn.isOpenToSouth()) {
-                goToNextCoordinate(coordinate, nextTurn.getValue(), enteredFrom);
-            }
+            goToNextCoordinate(coordinate, nextTurn.getValue(), enteredFrom);
         } catch (ArrayIndexOutOfBoundsException e) {
             // ignore
         }
